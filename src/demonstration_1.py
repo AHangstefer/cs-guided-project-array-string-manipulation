@@ -46,6 +46,24 @@ return -1
 
 [:] where to start: where to end (last value is not included)
 
+REFLECT
+
+def pivot_index(nums):           O(n)
+    for i in range(len(nums)):
+        #check if pivot
+        #sum all left of index
+        left_sub_list = nums[0:i]  O(1)
+        sum_l = sum(left_sub_list)  O(n)
+        #then sum all right
+        right_sub_list = nums[i+1:]  O(n)
+        sum_r = sum(right_sub_list)  O(n)
+        if sum_l == sum_r:
+            return i
+
+                                    total O(n^2)
+    return -1
+
+
 
 
 
@@ -66,7 +84,7 @@ Output: -1
 Explanation:
 There is no index that satisfies the conditions in the problem statement.
 """
-def pivot_index(nums):
+def pivot_indexOld(nums):
     for i in range(len(nums)):
         #check if pivot
         #sum all left of index
@@ -77,10 +95,21 @@ def pivot_index(nums):
         sum_r = sum(right_sub_list)
         if sum_l == sum_r:
             return i
-
-
-    
     return -1
+
+
+def pivot_index(nums):
+    left_sum = 0
+    right_sum = sum(nums)
+    for i in range(len(nums)):
+        #every time we get to a new index, we want to subtract the index from right sum
+        right_sum -= nums[i]
+        if right_sum == left_sum:
+            return i
+        left_sum += nums[i]
+    return -1
+
+
    
 print(pivot_index([1,7,3,6,5,6]))
 print(pivot_index([1,2,3]))
